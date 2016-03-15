@@ -1,4 +1,4 @@
-(function(storage, view){
+(function(storage, view, $){
 
   'use strict';
 
@@ -9,40 +9,17 @@
     return;
   }
 
-  var data = [
-    {
-      title: 'Block_1',
-      todo: [
-        {task: 'Block_1 Task1', done: false},
-        {task: 'Block_1 Task2', done: true},
-        {task: 'Block_1 Task3', done: false}
-      ]
-    },
-    {
-      title: 'Block_2',
-      todo: [
-        {task: 'Block_2 Task1', done: true},
-        {task: 'Block_2 Task2', done: false},
-        {task: 'Block_2 Task3', done: false}
-      ]
-    },
-    {
-      title: 'Block_3',
-      todo: [
-        {task: 'Block_3 Task1', done: true},
-        {task: 'Block_3 Task2', done: false},
-        {task: 'Block_3 Task3', done: true}
-      ]
-    },
-    {
-      title: 'Block_4',
-      todo: [
-        {task: 'Block_4 Task1', done: false},
-        {task: 'Block_4 Task2', done: false},
-        {task: 'Block_4 Task3', done: false}
-      ]
-    }
-  ];
+  // var data = [
+  //   {
+  //     todoListTitle: 'Block_1',
+  //     todoListID: 'todoList1',
+  //     todoListItems: [
+  //       {job: 'Block_1 Task1', done: false},
+  //       {job: 'Block_1 Task2', done: true},
+  //       {job: 'Block_1 Task3', done: false}
+  //     ]
+  //   }
+  // ];
 
   var app = {
     model: storage,
@@ -51,9 +28,28 @@
     init: function() {
       this.modelData = this.model.getAll();
       this.view.render('template', { data: this.modelData });
+      this.listeners();
+    },
+    listeners: function() {
+      $('#mainTodoContainer').delegate('input[data-role="add new job"]', 'keypress', {app: this}, this.addNewJob);
+    },
+    addNewJob: function() {
+      if (event.charCode !== 13 || $(this).prop('value') === '') return;
+      var title, id, job;
+      if (app._isFirstJob(this)) {
+
+      }
+    },
+    _isFirstJob: function(elem) {
+      var length =  $(elem)
+                    .closest('[data-role="todo list container"]')
+                    .find('[data-role="todo list body"]')
+                    .children()
+                    .length;
+      return (!length) ? true : false;
     }
   };
 
   app.init();
 
-}(storage, view));
+}(storage, view, jQuery));
