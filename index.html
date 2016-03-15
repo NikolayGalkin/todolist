@@ -19,26 +19,58 @@
       </div>
     </nav>
 
-    <div class="container">
-      <div class="row">
-
-        <div class="col-md-3">
-          <div class="panel panel-success">
-            <div class="panel-heading">
-              Panel heading without title
+    <script id="template" type="text/template">
+      <div id="mainTodoContainer" class="container">
+        <div class="row">
+          <% if (data.length === 0) { %>
+            <div class="col-md-4" data-todoListID="todoList1" data-role="todo list container">
+              <div class="panel panel-success">
+                <div class="panel-heading" data-role="todo list header">
+                  New TODO List
+                </div>
+                <div class="panel-body" data-role="todo list body"></div>
+                <div class="panel-footer" data-role="todo list footer">
+                  <input type="text" class="form-control" data-role="add new job" placeholder="What to do?">
+                </div>
+              </div>
             </div>
-            <div class="panel-body">
-              <div class="checkbox"><label><input type="checkbox" value=""><del>Do something</del></label></div>
-              <div class="checkbox"><label><input type="checkbox" value="">Do something 2</label></div>
-              <div class="checkbox"><label><input type="checkbox" value="">Do something 3</label></div>
-            </div>
-            <div class="panel-footer">
-              <input type="text" class="form-control" placeholder="What to do?">
-            </div>
-          </div>
+          <% } else { %>
+            <% for (var x = 0; x <= data.length - 1; x++) { %>
+              <div class="col-md-4" data-todoListID="<%=data[x].todoListID%>" data-role="todo list container">
+                <div class="panel panel-success">
+                  <div class="panel-heading" data-role="todo list header">
+                    <%=data[x].todoListTitle%>
+                  </div>
+                  <div class="panel-body" data-role="todo list body">
+                    <% for (var y = 0; y <= data[x].todoListItems.length - 1; y++) { %>
+                      <div class="checkbox" data-role="todo list checkbox">
+                        <% if (data[x].todoListItems[y].done === true) {%>
+                          <label>
+                            <input type="checkbox" checked><span><del><%=data[x].todoListItems[y].job%></del></span>
+                          </label>
+                        <% } else { %>
+                          <label>
+                            <input type="checkbox"><span><%=data[x].todoListItems[y].job%></span>
+                          </label>
+                        <% } %>
+                      </div>
+                    <% } %>
+                  </div>
+                  <div class="panel-footer" data-role="todo list footer">
+                    <input type="text" class="form-control" data-role="add new job" placeholder="What to do?">
+                  </div>
+                </div>
+              </div>
+            <% } %>
+          <% } %>
         </div>
-
       </div>
-    </div>
+    </script>
+
+    <script src="js/lib/jquery-2.2.1.js"></script>
+    <script src="js/lib/lodash.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/view.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>
