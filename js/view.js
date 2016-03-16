@@ -2,7 +2,7 @@ var view = (function(_, $){
 
   'use strict';
 
-  var _render = function(elemID, data) {
+  function _render(elemID, data) {
     if (typeof elemID !== 'string' || typeof data !== 'object') {
       alert(
         'Element identifier must be a string, data must be an object. You give: ' +
@@ -14,11 +14,11 @@ var view = (function(_, $){
     var elem = $(document.getElementById(elemID)),
         tmpl = _.template($(elem).html());
 
-    return $(elem).replaceWith(tmpl(data));
-  };
+    $(elem).replaceWith(tmpl(data));
+  }
 
   return {
-    render: _render,
+    render: _render
   };
 
 }(_, jQuery));

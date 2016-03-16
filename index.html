@@ -9,6 +9,7 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <nav class="navbar navbar-default">
@@ -20,44 +21,46 @@
     </nav>
 
     <script id="template" type="text/template">
-      <div id="mainTodoContainer" class="container">
+      <div id="main" class="container">
         <div class="row">
           <% if (data.length === 0) { %>
-            <div class="col-md-4" data-todoListID="todoList1" data-role="todo list container">
+            <div class="col-md-4" data-containerid="0" data-role="todo container">
               <div class="panel panel-success">
-                <div class="panel-heading" data-role="todo list header">
+                <div class="panel-heading" data-role="todo title">
                   New TODO List
                 </div>
-                <div class="panel-body" data-role="todo list body"></div>
-                <div class="panel-footer" data-role="todo list footer">
-                  <input type="text" class="form-control" data-role="add new job" placeholder="What to do?">
+                <div class="panel-body" data-role="todo body"></div>
+                <div class="panel-footer" data-role="todo footer">
+                  <input type="text" class="form-control" data-role="new job" placeholder="What to do?">
                 </div>
               </div>
             </div>
           <% } else { %>
             <% for (var x = 0; x <= data.length - 1; x++) { %>
-              <div class="col-md-4" data-todoListID="<%=data[x].todoListID%>" data-role="todo list container">
+              <div class="col-md-4" data-containerid="<%=x%>" data-role="todo container">
                 <div class="panel panel-success">
-                  <div class="panel-heading" data-role="todo list header">
-                    <%=data[x].todoListTitle%>
+                  <div class="panel-heading" data-role="todo title">
+                    <%=data[x].title%>
                   </div>
-                  <div class="panel-body" data-role="todo list body">
-                    <% for (var y = 0; y <= data[x].todoListItems.length - 1; y++) { %>
-                      <div class="checkbox" data-role="todo list checkbox">
-                        <% if (data[x].todoListItems[y].done === true) {%>
-                          <label>
-                            <input type="checkbox" checked><span><del><%=data[x].todoListItems[y].job%></del></span>
-                          </label>
-                        <% } else { %>
-                          <label>
-                            <input type="checkbox"><span><%=data[x].todoListItems[y].job%></span>
-                          </label>
-                        <% } %>
-                      </div>
-                    <% } %>
+                  <div class="panel-body" data-role="todo body">
+                      <% for (var y = 0; y <= data[x].jobs.length - 1; y++) { %>
+                        <div class="checkbox" data-jobid="<%=y%>" data-role="todo job">
+                          <% if (data[x].jobs[y].done === true) {%>
+                            <label>
+                              <input type="checkbox" checked>
+                                <del><span data-role="job text"><%=data[x].jobs[y].job%></span></del>
+                            </label>
+                          <% } else { %>
+                            <label>
+                              <input type="checkbox">
+                                <span data-role="job text"><%=data[x].jobs[y].job%></span>
+                            </label>
+                          <% } %>
+                        </div>
+                      <% } %>
                   </div>
-                  <div class="panel-footer" data-role="todo list footer">
-                    <input type="text" class="form-control" data-role="add new job" placeholder="What to do?">
+                  <div class="panel-footer" data-role="todo footer">
+                    <input type="text" class="form-control" data-role="new job" placeholder="What to do?">
                   </div>
                 </div>
               </div>
@@ -69,7 +72,7 @@
 
     <script src="js/lib/jquery-2.2.1.js"></script>
     <script src="js/lib/lodash.js"></script>
-    <script src="js/storage.js"></script>
+    <script src="js/model.js"></script>
     <script src="js/view.js"></script>
     <script src="js/app.js"></script>
   </body>
